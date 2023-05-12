@@ -1,6 +1,5 @@
 import pygame
 import button
-import inputbutton
 
 pygame.init()
 
