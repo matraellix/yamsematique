@@ -4,7 +4,7 @@ import probas
 pygame.init()
 
 WIDTH = 600
-HEIGHT = 800
+HEIGHT = 600
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 font = pygame.font.Font('CaviarDreams.ttf', 18)
 
