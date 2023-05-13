@@ -310,25 +310,33 @@ def main_game(level_proba, click):
     while running and not game_over:
         timer.tick(fps)
         # screen.fill((114, 47, 55))
-        numbers = [0, 0, 0, 0, 0]
+        dice_values = [0, 0, 0, 0, 0]
         screen.fill((100, 20, 55))
         # Two variables to keep the position of the mouse
         mx, my = pygame.mouse.get_pos()
-        # starting button // little fonction later ?
+        # starting button // little function for later ?
         button_roll = pygame.Rect(250, 185, 100, 50)
         pygame.draw.rect(screen, (255, 245, 238), button_roll)
         draw_text('ROLL', font, (60, 25, 29), screen, 280, 200)
         if roll:
-            for number in range(len(numbers)):
+            for number in range(len(dice_values)):
                 if not selected[number]:
-                    numbers[number] = probas.uniformdisc(1, 6)
+                    # dé non pipé pour level 1
+                    dice_values[number] = probas.uniformdisc(1, 6)
+                    # dé pipé pour level 2 qui marche pas
+                    """
+                    p_values = {1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.2, 6: 0.1}
+                    for value in range(1, 7):
+                        if probas.binom(p_values[level_proba]):
+                            dice_values.append(value)
+                    """
             roll = False
 
-        dice1 = Dice(10, 50, numbers[0], 0)
-        dice2 = Dice(130, 50, numbers[1], 1)
-        dice3 = Dice(250, 50, numbers[2], 2)
-        dice4 = Dice(370, 50, numbers[3], 3)
-        dice5 = Dice(490, 50, numbers[4], 4)
+        dice1 = Dice(10, 50, dice_values[0], 0)
+        dice2 = Dice(130, 50, dice_values[1], 1)
+        dice3 = Dice(250, 50, dice_values[2], 2)
+        dice4 = Dice(370, 50, dice_values[3], 3)
+        dice5 = Dice(490, 50, dice_values[4], 4)
         dice_array = [dice1, dice2, dice3, dice4, dice5]
         draw_dice(dice_array)
 
