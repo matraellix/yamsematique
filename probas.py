@@ -5,7 +5,6 @@ from math import exp, cos, sqrt, log, pi, prod
 def uniformdisc(m, M):
     return randint(m, M)
 
-
 def uniformcont():
     return randint(0, 10**6)/10**6
 

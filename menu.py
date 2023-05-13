@@ -3,6 +3,7 @@ Importing important libraries
 """
 import pygame
 import probas
+import dice
 
 pygame.init()
 pygame.display.set_caption('Yamsématiques')
@@ -15,7 +16,6 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # setting font settings
 font = pygame.font.Font('CaviarDreams.ttf', 18)
 
-
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
     textrect = textobj.get_rect()
@@ -26,86 +26,8 @@ def draw_text(text, font, color, surface, x, y):
 # A variable to check for the status later
 click = False
 level_proba = 0.0
-selected = [False, False, False, False, False]
-
-# Dice class
-
-
-class Dice:
-    def __init__(self, x_pos, y_pos, num, key):
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.number = num
-        global selected
-        self.key = key
-        self.active = selected[self.key]
-        self.dice = ''
-
-    def draw(self):
-        self.dice = pygame.draw.rect(screen, (255, 255, 255), [
-            self.x_pos, self.y_pos, 100, 100], 0, 5)
-        if self.number == 1:
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 50, self.y_pos + 50), 10)
-        if self.number == 2:
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 80, self.y_pos + 80), 10)
-        if self.number == 3:
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 50, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 80, self.y_pos + 80), 10)
-        if self.number == 4:
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 80, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 20, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 80, self.y_pos + 20), 10)
-        if self.number == 5:
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 50, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 80, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 20, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 80, self.y_pos + 20), 10)
-        if self.number == 6:
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 20, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 80, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 80, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 20, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
-                               (self.x_pos + 80, self.y_pos + 20), 10)
-        if self.active:
-            pygame.draw.rect(screen, (255, 0, 0), [
-                             self.x_pos, self.y_pos, 100, 100], 4, 5)
-
-    def check_click(self, coordinates):
-        if self.dice.collidepoint(coordinates):
-            if selected[self.key]:
-                selected[self.key] = False
-            elif not selected[self.key]:
-                selected[self.key] = True
 
 # Main container function that holds the buttons and game functions
-
-
 def main_menu():
     running = True
     global click
@@ -126,21 +48,24 @@ def main_menu():
         if button_lvl1.collidepoint((mx, my)):
             if click:
                 click = False
-                level_proba = run_lvl(
-                    "Choisissez un chiffre compris entre 1 et 6")
+                dice.main_draw()
 
         if button_lvl2.collidepoint((mx, my)):
             if click:
                 click = False
                 level_proba = run_lvl2(click)
-                main_game(level_proba, click)
+                dice.main_draw()
 
         if button_lvl3.collidepoint((mx, my)):
             if click:
-                level_proba = run_lvl("Choisissez un nombre positif")
+                click = False
+                level_proba = run_lvl("Choisissez un nombre positif", click)
+                dice.main_draw()
+
         if button_quit.collidepoint((mx, my)):
             if click:
                 running = False
+
         pygame.draw.rect(screen, (255, 245, 238), button_lvl1)
         pygame.draw.rect(screen, (255, 245, 238), button_lvl2)
         pygame.draw.rect(screen, (255, 245, 238), button_lvl3)
@@ -165,12 +90,9 @@ def main_menu():
                     click = True
         pygame.display.update()
 
-
 """
 NIVEAU 2 - BINOMIALE
 """
-
-
 def run_lvl2(click):
     proba = choose_proba("Choisissez une probabilité entre 0 et 1")
     print(proba)
@@ -194,10 +116,10 @@ def run_lvl2(click):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
+                running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
+                    running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
@@ -208,15 +130,25 @@ def run_lvl2(click):
 """
 NIVEAU 1 UNIFORME - 3 POISSON
 """
-
-
-def run_lvl(instruction):
+def run_lvl(instruction, click):
     proba = choose_proba(instruction)
     print(proba)
     running = True
     while running:
         screen.fill((114, 47, 55))
         draw_text('proba : ' + proba, font, (255, 245, 238), screen, 140, 32)
+
+        # Two variables to keep the position of the mouse
+        mx, my = pygame.mouse.get_pos()
+        # starting button // little fonction later ?
+        button_start = pygame.Rect(200, 100, 200, 50)
+        pygame.draw.rect(screen, (255, 245, 238), button_start)
+        draw_text('START GAME', font, (60, 25, 29), screen, 250, 115)
+
+        if button_start.collidepoint((mx, my)):
+            if click:
+                running = False
+
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -224,6 +156,9 @@ def run_lvl(instruction):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
     return proba
 
 
@@ -294,81 +229,10 @@ def choose_proba(instruction):
         pygame.display.update()
 
 
-# def main_game(level_proba,click, bonusTimeVar):
-def main_game(level_proba, click):
-    timer = pygame.time.Clock()
-    fps = 60
-    running = True
-    game_over = False
-    roll = False
-    rolls_left = 3
-    selected = [False, False, False, False, False]
-    scores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    done = [False, False, False, False, False, False,
-            False, False, False, False, False, False, False]
-
-    while running and not game_over:
-        timer.tick(fps)
-        # screen.fill((114, 47, 55))
-        dice_values = [0, 0, 0, 0, 0]
-        screen.fill((100, 20, 55))
-        # Two variables to keep the position of the mouse
-        mx, my = pygame.mouse.get_pos()
-        # starting button // little function for later ?
-        button_roll = pygame.Rect(250, 185, 100, 50)
-        pygame.draw.rect(screen, (255, 245, 238), button_roll)
-        draw_text('ROLL', font, (60, 25, 29), screen, 280, 200)
-        if roll:
-            for number in range(len(dice_values)):
-                if not selected[number]:
-                    # dé non pipé pour level 1
-                    dice_values[number] = probas.uniformdisc(1, 6)
-                    # dé pipé pour level 2 qui marche pas
-                    """
-                    p_values = {1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.2, 6: 0.1}
-                    for value in range(1, 7):
-                        if probas.binom(p_values[level_proba]):
-                            dice_values.append(value)
-                    """
-            roll = False
-
-        dice1 = Dice(10, 50, dice_values[0], 0)
-        dice2 = Dice(130, 50, dice_values[1], 1)
-        dice3 = Dice(250, 50, dice_values[2], 2)
-        dice4 = Dice(370, 50, dice_values[3], 3)
-        dice5 = Dice(490, 50, dice_values[4], 4)
-        dice_array = [dice1, dice2, dice3, dice4, dice5]
-        draw_dice(dice_array)
-
-        draw_text(str(rolls_left), font,
-                  (60, 25, 29), screen, 250, 250)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    game_over = True
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if button_roll.collidepoint((mx, my)) and rolls_left > 0:
-                    roll = True
-                    rolls_left -= 1
-                    draw_text(str(rolls_left), font,
-                              (60, 25, 29), screen, 250, 250)
-                    dice_clicked = 0
-
-        pygame.display.update()
-
-
-def draw_dice(dice_array):
-    dice_array[0].draw()
-    dice_array[1].draw()
-    dice_array[2].draw()
-    dice_array[3].draw()
-    dice_array[4].draw()
-
-
 """
 END FUNCTIONS
 """
 
 main_menu()
+
+pygame.quit()
