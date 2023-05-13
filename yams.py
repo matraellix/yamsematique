@@ -18,9 +18,12 @@ draw_clicked = 30
 count = 110
 rolls_left = 3
 scores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-choice = [False, False, False, False, False, False, False, False, False, False, False, False, False]
-done = [False, False, False, False, False, False, False, False, False, False, False, False, False]
-possible = [False, False, False, False, False, False, False, False, False, False, False, False, False]
+choice = [False, False, False, False, False, False,
+          False, False, False, False, False, False, False]
+done = [False, False, False, False, False, False,
+        False, False, False, False, False, False, False]
+possible = [False, False, False, False, False, False,
+            False, False, False, False, False, False, False]
 totals = [0, 0, 0, 0, 0, 0, 0]
 something_selected = False
 bonus_time = False
@@ -41,7 +44,8 @@ class Choice:
         self.score = my_score
 
     def draw(self):
-        pygame.draw.line(screen, (0, 0, 0), (self.x_pos, self.y_pos + 31), (self.x_pos + 225, self.y_pos + 31), 2)
+        pygame.draw.line(screen, (0, 0, 0), (self.x_pos,
+                         self.y_pos + 31), (self.x_pos + 225, self.y_pos + 31), 2)
         name_text = ''
         if not self.done:
             if self.possible:
@@ -51,7 +55,8 @@ class Choice:
         else:
             name_text = font.render(self.text, True, (0, 0, 0))
         if self.selected:
-            pygame.draw.rect(screen, (20, 35, 30), [self.x_pos, self.y_pos + 2, 155, 30])
+            pygame.draw.rect(screen, (20, 35, 30), [
+                             self.x_pos, self.y_pos + 2, 155, 30])
         screen.blit(name_text, (self.x_pos + 5, self.y_pos + 10))
         score_text = font.render(str(self.score), True, (0, 0, 255))
         screen.blit(score_text, (self.x_pos + 165, self.y_pos + 10))
@@ -68,36 +73,59 @@ class Dice:
         self.die = ''
 
     def draw(self):
-        self.die = pygame.draw.rect(screen, (255, 255, 255), [self.x_pos, self.y_pos, 100, 100], 0, 5)
+        self.die = pygame.draw.rect(screen, (255, 255, 255), [
+                                    self.x_pos, self.y_pos, 100, 100], 0, 5)
         if self.number == 1:
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 50, self.y_pos + 50), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 50, self.y_pos + 50), 10)
         if self.number == 2:
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 80, self.y_pos + 80), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 20, self.y_pos + 20), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 80, self.y_pos + 80), 10)
         if self.number == 3:
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 50, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 80, self.y_pos + 80), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 50, self.y_pos + 50), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 20, self.y_pos + 20), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 80, self.y_pos + 80), 10)
         if self.number == 4:
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 80, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 20, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 80, self.y_pos + 20), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 20, self.y_pos + 20), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 80, self.y_pos + 80), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 20, self.y_pos + 80), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 80, self.y_pos + 20), 10)
         if self.number == 5:
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 50, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 80, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 20, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 80, self.y_pos + 20), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 50, self.y_pos + 50), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 20, self.y_pos + 20), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 80, self.y_pos + 80), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 20, self.y_pos + 80), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 80, self.y_pos + 20), 10)
         if self.number == 6:
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 20, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 80, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 80, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 20, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0), (self.x_pos + 80, self.y_pos + 20), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 20, self.y_pos + 50), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 80, self.y_pos + 50), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 20, self.y_pos + 20), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 80, self.y_pos + 80), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 20, self.y_pos + 80), 10)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (self.x_pos + 80, self.y_pos + 20), 10)
         if self.active:
-            pygame.draw.rect(screen, (255, 0, 0), [self.x_pos, self.y_pos, 100, 100], 4, 5)
+            pygame.draw.rect(screen, (255, 0, 0), [
+                             self.x_pos, self.y_pos, 100, 100], 4, 5)
 
     def check_click(self, coordinates):
         if self.die.collidepoint(coordinates):
@@ -126,13 +154,15 @@ def restart_function():
     clicked = False
     rolls_left = 3
     scores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    choice = [False, False, False, False, False, False, False, False, False, False, False, False, False]
-    done = [False, False, False, False, False, False, False, False, False, False, False, False, False]
-    possible = [False, False, False, False, False, False, False, False, False, False, False, False, False]
+    choice = [False, False, False, False, False, False,
+              False, False, False, False, False, False, False]
+    done = [False, False, False, False, False, False,
+            False, False, False, False, False, False, False]
+    possible = [False, False, False, False, False, False,
+                False, False, False, False, False, False, False]
     totals = [0, 0, 0, 0, 0, 0, 0]
     something_selected = False
     score = 0
-
 
 
 def make_choice(num, my_list, done_list):
@@ -150,9 +180,11 @@ def draw_stuff():
     screen.blit(roll_text, (130, 165))
     accept_text = font.render('Accept Turn', True, (255, 255, 255))
     screen.blit(accept_text, (390, 165))
-    turns_text = font.render('Rolls Left This Turn: ' + str(rolls_left), True, (255, 255, 255))
+    turns_text = font.render('Rolls Left This Turn: ' +
+                             str(rolls_left), True, (255, 255, 255))
     screen.blit(turns_text, (15, 15))
-    but_text = font.render('Click a Die to Keep It Or Release It', True, (255, 255, 255))
+    but_text = font.render(
+        'Click a Die to Keep It Or Release It', True, (255, 255, 255))
     screen.blit(but_text, (280, 15))
     pygame.draw.rect(screen, (255, 255, 255), [0, 200, 225, HEIGHT - 200])
     pygame.draw.line(screen, (0, 0, 0), (0, 40), (WIDTH, 40), 3)
@@ -162,11 +194,14 @@ def draw_stuff():
     pygame.draw.line(screen, (0, 0, 0), (155, 200), (155, HEIGHT), 3)
     pygame.draw.line(screen, (0, 0, 0), (225, 200), (225, HEIGHT), 3)
     if game_over:
-        over_text = font.render('Game Over! Restart to Play Again', True, (255, 255, 255))
+        over_text = font.render(
+            'Game Over! Restart to Play Again', True, (255, 255, 255))
         screen.blit(over_text, (280, 280))
-    score_text = font.render('Score: ' + str(game_score), True, (255, 255, 255))
+    score_text = font.render(
+        'Score: ' + str(game_score), True, (255, 255, 255))
     screen.blit(score_text, (280, 340))
-    high_score_text = font.render('High Score: ' + str(high_score), True, (255, 255, 255))
+    high_score_text = font.render(
+        'High Score: ' + str(high_score), True, (255, 255, 255))
     screen.blit(high_score_text, (280, 370))
 
 
@@ -306,7 +341,8 @@ def check_scores(select_list, number_list, possible_list, points):
 
 
 def check_totals(totals_list, scores_list, my_bonus):
-    totals_list[0] = scores_list[0] + scores_list[1] + scores_list[2] + scores_list[3] + scores_list[4] + scores_list[5]
+    totals_list[0] = scores_list[0] + scores_list[1] + \
+        scores_list[2] + scores_list[3] + scores_list[4] + scores_list[5]
     if totals_list[0] >= 63:
         totals_list[1] = 35
     else:
@@ -343,15 +379,23 @@ while running:
     fives = Choice(0, 320, '5s', choice[4], possible[4], done[4], scores[4])
     sixes = Choice(0, 350, '6s', choice[5], possible[5], done[5], scores[5])
     lower_total1 = Choice(0, 380, 'Upper Score', False, False, True, totals[0])
-    lower_bonus = Choice(0, 410, 'Bonus if >= 63', False, False, True, totals[1])
+    lower_bonus = Choice(0, 410, 'Bonus if >= 63',
+                         False, False, True, totals[1])
     lower_total2 = Choice(0, 440, 'Upper Total', False, False, True, totals[2])
-    three_kind = Choice(0, 470, '3 of Kind', choice[6], possible[6], done[6], scores[6])
-    four_kind = Choice(0, 500, '4 of Kind', choice[7], possible[7], done[7], scores[7])
-    full_house = Choice(00, 530, 'Full House', choice[8], possible[8], done[8], scores[8])
-    small_straight = Choice(0, 560, 'Sm. Straight', choice[9], possible[9], done[9], scores[9])
-    large_straight = Choice(0, 590, 'Lg. Straight', choice[10], possible[10], done[10], scores[10])
-    yahtzee = Choice(0, 620, 'YAHTZEE', choice[11], possible[11], done[11], scores[11])
-    chance = Choice(0, 650, 'Chance', choice[12], possible[12], done[12], scores[12])
+    three_kind = Choice(0, 470, '3 of Kind',
+                        choice[6], possible[6], done[6], scores[6])
+    four_kind = Choice(0, 500, '4 of Kind',
+                       choice[7], possible[7], done[7], scores[7])
+    full_house = Choice(00, 530, 'Full House',
+                        choice[8], possible[8], done[8], scores[8])
+    small_straight = Choice(0, 560, 'Sm. Straight',
+                            choice[9], possible[9], done[9], scores[9])
+    large_straight = Choice(0, 590, 'Lg. Straight',
+                            choice[10], possible[10], done[10], scores[10])
+    yahtzee = Choice(0, 620, 'YAHTZEE',
+                     choice[11], possible[11], done[11], scores[11])
+    chance = Choice(0, 650, 'Chance',
+                    choice[12], possible[12], done[12], scores[12])
     bonus = Choice(0, 680, 'YAHTZEE Bonus', False, False, True, totals[3])
     lower_total = Choice(0, 710, 'Lower Total', False, False, True, totals[4])
     upper_total = Choice(0, 740, 'Upper Total', False, False, True, totals[5])
@@ -365,7 +409,8 @@ while running:
     totals, bonus_time = check_totals(totals, scores, bonus_time)
 
     if draw_clicked < 30:
-        outline_button = pygame.draw.rect(screen, (70, 70, 70), [10, 160, 280, 30], 4)
+        outline_button = pygame.draw.rect(
+            screen, (70, 70, 70), [10, 160, 280, 30], 4)
         draw_clicked += 1
 
     for event in pygame.event.get():
@@ -435,7 +480,8 @@ while running:
 
     for i in range(len(possible)):
         if choice[i] and not possible[i]:
-            click_text = font.render('Choosing that option will give you a zero!', True, (155, 34, 34))
+            click_text = font.render(
+                'Choosing that option will give you a zero!', True, (155, 34, 34))
             screen.blit(click_text, (230, 205))
         if choice[i]:
             something_selected = True
