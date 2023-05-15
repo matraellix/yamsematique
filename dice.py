@@ -105,6 +105,13 @@ def main_draw():
             screen, (255, 245, 238), [250, 185, 100, 50])
         roll_text = font.render('ROLL', True, (60, 25, 29))
         screen.blit(roll_text, (280, 200))
+
+        # BUTTON ACCEPT
+        button_accept = pygame.draw.rect(
+            screen, (255, 245, 238), [400, 185, 100, 50])
+        accept_text = font.render('ACCEPT TURN', True, (60, 25, 29))
+        screen.blit(roll_text, (280, 200))
+
         # ROLLS LEFT TEXT
         turns_text = font.render(
             'Rolls Left This Turn: ' + str(rolls_left), True, (255, 245, 238))

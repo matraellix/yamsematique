@@ -56,7 +56,7 @@ def main_menu():
         if button_lvl3.collidepoint((mx, my)):
             if click:
                 click = False
-                level_proba = run_lvl("Choisissez un nombre positif", click)
+                level_proba = run_lvl("Choose a positive number", click)
                 dice.main_draw()
 
         if button_quit.collidepoint((mx, my)):
@@ -69,10 +69,10 @@ def main_menu():
         pygame.draw.rect(screen, (255, 245, 238), button_quit)
 
         # writing text on top of button
-        functions.draw_text('NIVEAU 1', font, (60, 25, 29), screen, 270, 115)
-        functions.draw_text('NIVEAU 2', font, (60, 25, 29), screen, 270, 195)
-        functions.draw_text('NIVEAU 3', font, (60, 25, 29), screen, 270, 275)
-        functions.draw_text('QUITTER', font, (60, 25, 29), screen, 270, 355)
+        functions.draw_text('LEVEL 1', font, (60, 25, 29), screen, 270, 115)
+        functions.draw_text('LEVEL 2', font, (60, 25, 29), screen, 270, 195)
+        functions.draw_text('LEVEL 3', font, (60, 25, 29), screen, 270, 275)
+        functions.draw_text('QUIT', font, (60, 25, 29), screen, 270, 355)
 
         click = False
 
@@ -89,12 +89,12 @@ def main_menu():
 
 
 """
-NIVEAU 2 - BINOMIALE
+LEVEL 2 - BINOMIALE
 """
 
 
 def run_lvl2(click):
-    proba = choose_proba("Choisissez une probabilité entre 0 et 1")
+    proba = choose_proba("Choose a probability between 0 and 1")
     print(proba)
     running = True
     while running:
@@ -129,7 +129,7 @@ def run_lvl2(click):
 
 
 """
-NIVEAU 1 UNIFORME - 3 POISSON
+LEVEL 1 UNIFORME - 3 POISSON
 """
 
 
