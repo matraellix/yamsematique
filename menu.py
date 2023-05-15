@@ -4,6 +4,8 @@ Importing important libraries
 import pygame
 import probas
 import dice
+import functions
+
 
 pygame.init()
 pygame.display.set_caption('Yamsématiques')
@@ -16,18 +18,13 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # setting font settings
 font = pygame.font.Font('CaviarDreams.ttf', 18)
 
-def draw_text(text, font, color, surface, x, y):
-    textobj = font.render(text, 1, color)
-    textrect = textobj.get_rect()
-    textrect.topleft = (x, y)
-    surface.blit(textobj, textrect)
-
-
 # A variable to check for the status later
 click = False
 level_proba = 0.0
 
 # Main container function that holds the buttons and game functions
+
+
 def main_menu():
     running = True
     global click
@@ -35,7 +32,7 @@ def main_menu():
     while running:
 
         screen.fill((114, 47, 55))
-        draw_text('Menu', font, (255, 245, 238), screen, 280, 40)
+        functions.draw_text('Menu', font, (255, 245, 238), screen, 280, 40)
         # Two variables to keep the position of the mouse
         mx, my = pygame.mouse.get_pos()
         # creating buttons
@@ -72,10 +69,10 @@ def main_menu():
         pygame.draw.rect(screen, (255, 245, 238), button_quit)
 
         # writing text on top of button
-        draw_text('NIVEAU 1', font, (60, 25, 29), screen, 270, 115)
-        draw_text('NIVEAU 2', font, (60, 25, 29), screen, 270, 195)
-        draw_text('NIVEAU 3', font, (60, 25, 29), screen, 270, 275)
-        draw_text('QUITTER', font, (60, 25, 29), screen, 270, 355)
+        functions.draw_text('NIVEAU 1', font, (60, 25, 29), screen, 270, 115)
+        functions.draw_text('NIVEAU 2', font, (60, 25, 29), screen, 270, 195)
+        functions.draw_text('NIVEAU 3', font, (60, 25, 29), screen, 270, 275)
+        functions.draw_text('QUITTER', font, (60, 25, 29), screen, 270, 355)
 
         click = False
 
@@ -90,23 +87,27 @@ def main_menu():
                     click = True
         pygame.display.update()
 
+
 """
 NIVEAU 2 - BINOMIALE
 """
+
+
 def run_lvl2(click):
     proba = choose_proba("Choisissez une probabilité entre 0 et 1")
     print(proba)
     running = True
     while running:
         screen.fill((114, 47, 55))
-        draw_text('proba : ' + proba, font, (255, 245, 238), screen, 140, 32)
+        functions.draw_text('proba : ' + proba, font,
+                            (255, 245, 238), screen, 140, 32)
 
         # Two variables to keep the position of the mouse
         mx, my = pygame.mouse.get_pos()
         # starting button // little fonction later ?
         button_start = pygame.Rect(200, 100, 200, 50)
         pygame.draw.rect(screen, (255, 245, 238), button_start)
-        draw_text('START GAME', font, (60, 25, 29), screen, 250, 115)
+        functions.draw_text('START GAME', font, (60, 25, 29), screen, 250, 115)
 
         if button_start.collidepoint((mx, my)):
             if click:
@@ -130,20 +131,23 @@ def run_lvl2(click):
 """
 NIVEAU 1 UNIFORME - 3 POISSON
 """
+
+
 def run_lvl(instruction, click):
     proba = choose_proba(instruction)
     print(proba)
     running = True
     while running:
         screen.fill((114, 47, 55))
-        draw_text('proba : ' + proba, font, (255, 245, 238), screen, 140, 32)
+        functions.draw_text('proba : ' + proba, font,
+                            (255, 245, 238), screen, 140, 32)
 
         # Two variables to keep the position of the mouse
         mx, my = pygame.mouse.get_pos()
         # starting button // little fonction later ?
         button_start = pygame.Rect(200, 100, 200, 50)
         pygame.draw.rect(screen, (255, 245, 238), button_start)
-        draw_text('START GAME', font, (60, 25, 29), screen, 250, 115)
+        functions.draw_text('START GAME', font, (60, 25, 29), screen, 250, 115)
 
         if button_start.collidepoint((mx, my)):
             if click:
@@ -180,7 +184,8 @@ def choose_proba(instruction):
 
     while running:
         screen.fill((114, 47, 55))
-        draw_text(instruction, font, (255, 245, 238), screen, 150, 200)
+        functions.draw_text(instruction, font,
+                            (255, 245, 238), screen, 150, 200)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -203,14 +208,14 @@ def choose_proba(instruction):
                         else:
                             msg = "La probabilité doit être entre 0 et 1."
                             print(msg)
-                            draw_text(msg, font, (255, 245, 238),
-                                      screen, 150, 200)
+                            functions.draw_text(msg, font, (255, 245, 238),
+                                                screen, 150, 200)
                             proba_chosen = ''
                     except ValueError:
                         errorMsg = "Erreur : Veuillez entrer un nombre valide entre 0 et 1."
                         print(errorMsg)
-                        draw_text(errorMsg, font, (255, 245, 238),
-                                  screen, 150, 200)
+                        functions.draw_text(errorMsg, font, (255, 245, 238),
+                                            screen, 150, 200)
                         proba_chosen = ''
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()

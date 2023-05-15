@@ -1,5 +1,6 @@
 import pygame
 import probas
+import category
 
 pygame.init()
 
@@ -7,6 +8,7 @@ WIDTH = 600
 HEIGHT = 600
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 font = pygame.font.Font('CaviarDreams.ttf', 18)
+
 
 class Dice:
     def __init__(self, x_pos, y_pos, num, key):
@@ -22,57 +24,57 @@ class Dice:
         self.die = pygame.draw.rect(screen, (255, 255, 255), [
                                     self.x_pos, self.y_pos, 100, 100], 0, 5)
         if self.number == 1:
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 50, self.y_pos + 50), 10)
         if self.number == 2:
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 80, self.y_pos + 80), 10)
         if self.number == 3:
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 50, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 80, self.y_pos + 80), 10)
         if self.number == 4:
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 80, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 20, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 80, self.y_pos + 20), 10)
         if self.number == 5:
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 50, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 80, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 20, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 80, self.y_pos + 20), 10)
         if self.number == 6:
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 20, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 80, self.y_pos + 50), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 20, self.y_pos + 20), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 80, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 20, self.y_pos + 80), 10)
-            pygame.draw.circle(screen, (0, 0, 0),
+            pygame.draw.circle(screen, (51, 33, 29),
                                (self.x_pos + 80, self.y_pos + 20), 10)
         if self.selected:
             pygame.draw.rect(screen, (143, 201, 163), [
                              self.x_pos, self.y_pos, 100, 100], 4, 5)
-            
+
     def check_click(self, coordinates):
         if self.die.collidepoint(coordinates):
             if dice_selected[self.key]:
@@ -81,10 +83,10 @@ class Dice:
                 dice_selected[self.key] = True
 
 
-def draw_dice(dices_array):
+def draw_dices(dices_array):
     for die in range(len(dices_array)):
         dices_array[die].draw()
-    
+
 
 def main_draw():
     timer = pygame.time.Clock()
@@ -97,22 +99,26 @@ def main_draw():
     running = True
     while running:
         timer.tick(fps)
-        screen.fill((100, 20, 55))
-        #BUTTON ROL
-        button_roll = pygame.draw.rect(screen, (255, 245, 238), [250, 185, 100, 50])
+        screen.fill((114, 47, 55))
+        # BUTTON ROLL
+        button_roll = pygame.draw.rect(
+            screen, (255, 245, 238), [250, 185, 100, 50])
         roll_text = font.render('ROLL', True, (60, 25, 29))
         screen.blit(roll_text, (280, 200))
-        #ROLLS LEFT TEXT 
-        turns_text = font.render('Rolls Left This Turn: ' + str(rolls_left), True, (255, 245, 238))
+        # ROLLS LEFT TEXT
+        turns_text = font.render(
+            'Rolls Left This Turn: ' + str(rolls_left), True, (255, 245, 238))
         screen.blit(turns_text, (15, 15))
-        #DICE
+        # DICE
         dice1 = Dice(10, 50, dice_values[0], 0)
         dice2 = Dice(130, 50, dice_values[1], 1)
         dice3 = Dice(250, 50, dice_values[2], 2)
         dice4 = Dice(370, 50, dice_values[3], 3)
         dice5 = Dice(490, 50, dice_values[4], 4)
         dices_array = [dice1, dice2, dice3, dice4, dice5]
-        draw_dice(dices_array)
+        draw_dices(dices_array)
+
+        category.create_categories()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -123,8 +129,8 @@ def main_draw():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for value in range(len(dices_array)):
                     dices_array[value].check_click(event.pos)
-                if button_roll.collidepoint(event.pos)and rolls_left > 0:
-                    roll = True  
+                if button_roll.collidepoint(event.pos) and rolls_left > 0:
+                    roll = True
                     rolls_left -= 1
         if roll:
             for value in range(len(dice_values)):
@@ -134,5 +140,5 @@ def main_draw():
 
         pygame.display.flip()
 
-#Uncomment for testing the file
-#main_draw()
+# Uncomment for testing the file
+# main_draw()
