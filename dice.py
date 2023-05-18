@@ -92,9 +92,10 @@ class Dice:
                 dice_selected[self.key] = True
 
 
-def check_scores(selected_category, dice_values, done, current_scores):
+def check_scores(selected_category, dice_values, done):
     active = 0
     max_count = 0
+    current_scores = 0
     for i in range(len(selected_category)):
         if selected_category[i]:
             active = i
@@ -230,7 +231,7 @@ def main_draw():
             dice_values)
         category.create_categories_opponent()
         current_scores = check_scores(
-            selected_category, dice_values, done, scores)
+            selected_category, dice_values, done)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

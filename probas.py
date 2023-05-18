@@ -1,4 +1,5 @@
 from random import randint
+from numpy.random import choices
 from math import exp, cos, sqrt, log, pi, prod
 
 
@@ -57,6 +58,9 @@ def laplace(mu, b):
 def gamma(n):
     # Very simple approximation of Gamma(N, 1)
     return -log(prod([uniformcont() for i in range(n)]))
+
+def markov(set, state, matrix) :
+	return choices(set, 1, matrix[state])[0]
 
 
 if __name__ == "__main__":
