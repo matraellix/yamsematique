@@ -36,8 +36,8 @@ class Category:
             functions.draw_text(self.text, font, (255, 245, 238),
                                 screen, self.x_pos + 7, self.y_pos + 7)
         else:
-            functions.draw_text(self.text, font, ("#33211D"),
-                                screen, self.x_pos + 7, self.y_pos + 7)
+            functions.draw_text(self.text, font, (100, 50, 50),
+                                screen, self.x_pos + 6, self.y_pos + 6)
         if self.select:
             pygame.draw.rect(screen, ("#33211D"), [
                              self.x_pos, self.y_pos, 190, 30])

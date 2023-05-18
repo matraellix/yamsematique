@@ -115,6 +115,7 @@ def check_scores(selected_category, dice_values, done, current_scores):
         if max_count == 3:
             current_scores = sum(dice_values)
         else:
+
             current_scores = 0
 
     elif active == 10 and not done[10]:
@@ -186,6 +187,7 @@ def main_draw():
     timer = pygame.time.Clock()
     fps = 60
     # if 0,0,0,0,0 it looks like a yams, so choose random values that don't follow each other
+    global something_selected
     dice_values = [0, 7, 9, 11, 13]
     global dice_selected
     dice_selected = [False, False, False, False, False]
@@ -276,7 +278,8 @@ def main_draw():
                 if button_roll.collidepoint(event.pos) and rolls_left > 0:
                     roll = True
                     rolls_left -= 1
-                if button_accept.collidepoint(event.pos) and something_selected and rolls_left > 0:
+
+                if button_accept.collidepoint(event.pos) and something_selected and rolls_left >= 0:
                     print("accepted")
 
                     for i in range(len(selected_category)):
@@ -287,11 +290,11 @@ def main_draw():
                             print(i)
                             selected_category[i] = False
 
-                        for j in range(len(dice_selected)):
-                            dice_selected[j] = False
-                        dice_values = [0, 7, 9, 11, 13]
-                        something_selected = False
-                        rolls_left = 3
+                    for j in range(len(dice_selected)):
+                        dice_selected[j] = False
+                    dice_values = [0, 7, 9, 11, 13]
+                    something_selected = False
+                    rolls_left = 3
 
         if roll:
             for value in range(len(dice_values)):
