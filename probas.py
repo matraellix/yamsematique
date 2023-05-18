@@ -12,6 +12,8 @@ def uniformcont():
 def binom(p):
     return uniformcont() < p
 
+def binomdice(p) :
+    return 1+sum([binom(p) for i in range(5)])
 
 def poisson(lambd):
     l = exp(-lambd)

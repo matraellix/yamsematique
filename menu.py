@@ -58,6 +58,8 @@ def main_menu():
             if click:
                 click = False
                 level_proba = run_lvl("Choose a positive number", click)
+                dice.Dice.pick = probas.poisson
+                dice.Dice.pick_params = [level_proba]
                 dice.main_draw()
 
         if button_quit.collidepoint((mx, my)):

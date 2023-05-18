@@ -17,6 +17,8 @@ current_scores = 0
 
 
 class Dice:
+    pick = print
+    pick_params = []
     def __init__(self, x_pos, y_pos, num, key):
         global dice_selected
         self.x_pos = x_pos
@@ -299,7 +301,7 @@ def main_draw():
         if roll:
             for value in range(len(dice_values)):
                 if not dice_selected[value]:
-                    dice_values[value] = probas.uniformdisc(1, 6)
+                    dice_values[value] = Dice.pick(*Dice.pick_params)
             roll = False
         for i in range(len(done)):
             if selected_category[i]:
