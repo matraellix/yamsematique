@@ -13,7 +13,10 @@ pygame.display.set_caption('Yamsématiques')
 
 WIDTH = 400
 HEIGHT = 500
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+
+level = 1
 
 # setting font settings
 font = pygame.font.Font('CaviarDreams.ttf', 18)
@@ -28,6 +31,7 @@ level_proba = 0.0
 def main_menu():
     running = True
     global click
+    global level
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     while running:
@@ -46,19 +50,26 @@ def main_menu():
         if button_lvl1.collidepoint((mx, my)):
             if click:
                 click = False
+                dice.Dice.pick = probas.uniformdisc
+                dice.Dice.pick_params = [1, 6]
                 dice.main_draw()
 
         if button_lvl2.collidepoint((mx, my)):
             if click:
                 click = False
+                level = 2
                 level_proba = run_lvl2(click)
+                dice.Dice.pick = probas.binomdice
+                dice.Dice.pick_params = [level_proba]
                 dice.main_draw()
 
         if button_lvl3.collidepoint((mx, my)):
             if click:
                 click = False
-                level_proba = run_lvl("Choose a positive number", click)
-                dice.Dice.pick = probas.poisson
+                level = 3
+                level_proba = run_lvl(
+                    "Choose a number between 1 and 6", click)
+                dice.Dice.pick = probas.poissondice
                 dice.Dice.pick_params = [level_proba]
                 dice.main_draw()
 
@@ -102,7 +113,7 @@ def run_lvl2(click):
     running = True
     while running:
         screen.fill((114, 47, 55))
-        functions.draw_text('proba : ' + proba, font,
+        functions.draw_text('proba : ' + str(proba), font,
                             (255, 245, 238), screen, 140, 32)
 
         # Two variables to keep the position of the mouse
@@ -142,7 +153,7 @@ def run_lvl(instruction, click):
     running = True
     while running:
         screen.fill((114, 47, 55))
-        functions.draw_text('proba : ' + proba, font,
+        functions.draw_text('proba : ' + str(proba), font,
                             (255, 245, 238), screen, 140, 32)
 
         # Two variables to keep the position of the mouse
@@ -177,11 +188,12 @@ Function for the user to choose the probability wanted
 def choose_proba(instruction):
     input_proba = pygame.Rect(250, 250, 140, 32)
     proba_chosen = ''
-
     color_active = pygame.Color((60, 25, 29))
     color_passive = pygame.Color('white')
     color = color_passive
     active = False
+    global level
+    print(level)
 
     running = True
 
@@ -200,26 +212,43 @@ def choose_proba(instruction):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     proba_chosen = proba_chosen[:-1]
-                else:
+                elif event.key != pygame.K_KP_ENTER or event.key != pygame.K_RETURN:
                     proba_chosen += event.unicode
                 if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
-
-                    try:
-                        proba = float(proba_chosen)
-                        if 0 <= proba <= 1:
-                            return proba_chosen[:-1]
-                        else:
-                            msg = "La probabilité doit être entre 0 et 1."
-                            print(msg)
-                            functions.draw_text(msg, font, (255, 245, 238),
+                    if level == 2:
+                        try:
+                            proba = float(proba_chosen)
+                            if 0 <= proba <= 1:
+                                return proba
+                            else:
+                                msg = "The probability must be bewteen 0 and 1"
+                                print(msg)
+                                functions.draw_text(msg, font, (255, 245, 238),
+                                                    screen, 150, 200)
+                                proba_chosen = ''
+                        except ValueError:
+                            errorMsg = "Error : The probability must be bewteen 0 and 1"
+                            print(errorMsg)
+                            functions.draw_text(errorMsg, font, (255, 245, 238),
                                                 screen, 150, 200)
                             proba_chosen = ''
-                    except ValueError:
-                        errorMsg = "Erreur : Veuillez entrer un nombre valide entre 0 et 1."
-                        print(errorMsg)
-                        functions.draw_text(errorMsg, font, (255, 245, 238),
-                                            screen, 150, 200)
-                        proba_chosen = ''
+                    elif level == 3:
+                        try:
+                            proba = float(proba_chosen)
+                            if 0 <= proba <= 6:
+                                return proba
+                            else:
+                                msg = "The number must be between 1 and 6"
+                                print(msg)
+                                functions.draw_text(msg, font, (255, 245, 238),
+                                                    screen, 150, 200)
+                                proba_chosen = ''
+                        except ValueError:
+                            errorMsg = "Error : The number must be between 1 and 6"
+                            print(errorMsg)
+                            functions.draw_text(errorMsg, font, (255, 245, 238),
+                                                screen, 150, 200)
+                            proba_chosen = ''
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
         if active:

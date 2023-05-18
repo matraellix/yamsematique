@@ -5,6 +5,7 @@ from math import exp, cos, sqrt, log, pi, prod
 def uniformdisc(m, M):
     return randint(m, M)
 
+
 def uniformcont():
     return randint(0, 10**6)/10**6
 
@@ -12,8 +13,10 @@ def uniformcont():
 def binom(p):
     return uniformcont() < p
 
-def binomdice(p) :
+
+def binomdice(p):
     return 1+sum([binom(p) for i in range(5)])
+
 
 def poisson(lambd):
     l = exp(-lambd)
@@ -23,6 +26,14 @@ def poisson(lambd):
         k += 1
         p *= uniformcont()
     return k-1
+
+
+def poissondice(lambd):
+    if (k := poisson(lambd)) >= 6:
+        return 6
+    elif k == 0:
+        return 1
+    return k
 
 
 def normal(mu, sigma):
