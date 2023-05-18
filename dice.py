@@ -240,7 +240,7 @@ def main_draw():
                     dices_array[value].check_click(event.pos)
 
                 if 50 <= event.pos[0] <= 225:
-                    if 260 <= event.pos[1] <= 435:
+                    if 260 <= event.pos[1] <= 470:
                         if 260 <= event.pos[1] <= 295:
                             clicked = 0
                         if 295 <= event.pos[1] <= 330:
@@ -258,7 +258,7 @@ def main_draw():
                             clicked, selected_category, done)
                         clicked = -1
                 elif 300 <= event.pos[0] <= 525:
-                    if 260 <= event.pos[1] <= 435:
+                    if 260 <= event.pos[1] <= 470:
                         if 260 <= event.pos[1] <= 295:
                             clicked = 6
                         if 295 <= event.pos[1] <= 330:
