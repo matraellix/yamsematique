@@ -5,15 +5,15 @@ import pygame
 import probas
 import dice
 import functions
+import os
 
 
 pygame.init()
 pygame.display.set_caption('Yamsématiques')
 
-WIDTH = 600
-HEIGHT = 600
-
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+WIDTH = 400
+HEIGHT = 500
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 
 # setting font settings
 font = pygame.font.Font('CaviarDreams.ttf', 18)
@@ -28,18 +28,19 @@ level_proba = 0.0
 def main_menu():
     running = True
     global click
-
+    os.environ['SDL_VIDEO_CENTERED'] = '1'
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
     while running:
 
         screen.fill((114, 47, 55))
-        functions.draw_text('Menu', font, (255, 245, 238), screen, 280, 40)
+        functions.draw_text('Menu', font, (255, 245, 238), screen, 180, 40)
         # Two variables to keep the position of the mouse
         mx, my = pygame.mouse.get_pos()
         # creating buttons
-        button_lvl1 = pygame.Rect(200, 100, 200, 50)
-        button_lvl2 = pygame.Rect(200, 180, 200, 50)
-        button_lvl3 = pygame.Rect(200, 260, 200, 50)
-        button_quit = pygame.Rect(200, 340, 200, 50)
+        button_lvl1 = pygame.Rect(100, 100, 200, 50)
+        button_lvl2 = pygame.Rect(100, 180, 200, 50)
+        button_lvl3 = pygame.Rect(100, 260, 200, 50)
+        button_quit = pygame.Rect(100, 340, 200, 50)
 
         # defining functions when a certain button is pressed
         if button_lvl1.collidepoint((mx, my)):
@@ -69,10 +70,10 @@ def main_menu():
         pygame.draw.rect(screen, (255, 245, 238), button_quit)
 
         # writing text on top of button
-        functions.draw_text('LEVEL 1', font, (60, 25, 29), screen, 270, 115)
-        functions.draw_text('LEVEL 2', font, (60, 25, 29), screen, 270, 195)
-        functions.draw_text('LEVEL 3', font, (60, 25, 29), screen, 270, 275)
-        functions.draw_text('QUIT', font, (60, 25, 29), screen, 270, 355)
+        functions.draw_text('LEVEL 1', font, (60, 25, 29), screen, 170, 115)
+        functions.draw_text('LEVEL 2', font, (60, 25, 29), screen, 170, 195)
+        functions.draw_text('LEVEL 3', font, (60, 25, 29), screen, 170, 275)
+        functions.draw_text('QUIT', font, (60, 25, 29), screen, 170, 355)
 
         click = False
 
