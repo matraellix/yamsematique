@@ -116,7 +116,7 @@ def check_scores(selected_category, dice_values, done):
         for j in range(1, 7):
             if dice_values.count(j) > max_count:
                 max_count = dice_values.count(j)
-        if max_count == 3:
+        if max_count >= 3:
             current_scores = sum(dice_values)
         else:
 
@@ -126,7 +126,7 @@ def check_scores(selected_category, dice_values, done):
         for j in range(1, 7):
             if dice_values.count(j) > max_count:
                 max_count = dice_values.count(j)
-        if max_count == 4:
+        if max_count >= 4:
             current_scores = 40 + sum(dice_values)
         else:
             current_scores = 0
@@ -185,6 +185,21 @@ def draw_dices(dices_array):
         dices_array[die].draw()
 
 
+def check_totals(totals, scores):
+    # totals[0] = scores[0] + scores[1] +scores[2] +scores[3] +scores[4] +scores[5]
+    totals[0] = sum(scores[:6])
+    # totals[1] = scores[6] + scores[7] +scores[8] +scores[9] +scores[10] +scores[11]
+    totals[1] = sum(scores[6:12])
+
+    if totals[0] >= 63:
+        totals[2] = +30
+    else:
+        totals[2] = 0
+
+    totals[3] = totals[0] + totals[1] + totals[2]
+    return totals
+
+
 def main_draw():
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
@@ -232,7 +247,7 @@ def main_draw():
         category.create_categories_opponent()
         current_scores = check_scores(
             selected_category, dice_values, done)
-
+        totals = check_totals(category.totals, category.scores)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -304,15 +319,14 @@ def main_draw():
             for value in range(len(dice_values)):
                 if not dice_selected[value]:
                     dice_values[value] = Dice.pick(*Dice.pick_params)
+
             roll = False
         for i in range(len(done)):
             if selected_category[i]:
                 something_selected = True
 
         pygame.display.flip()
-    WIDTH_back_menu = 400
-    HEIGHT_back_menu = 500
-    screen = pygame.display.set_mode((WIDTH_back_menu, HEIGHT_back_menu))
+
 
 # Uncomment for testing the file
 # main_draw()
