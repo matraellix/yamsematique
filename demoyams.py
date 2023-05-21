@@ -39,6 +39,7 @@ class Demoyams:
 
 def draw_demoyams():
     demoyams_value = ''
+    demoyams_once = 1
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
     timer = pygame.time.Clock()
@@ -82,7 +83,6 @@ def draw_demoyams():
             roll_demoyams = False
             # running = False
 
-        demoyams_once = 1
         if demoyams_value != '' and demoyams_once > 0:
             demoyams_once = 0
             score_to_change = category.scores[k := probas.uniformdisc(0, 12)]
