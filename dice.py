@@ -2,6 +2,7 @@ import pygame
 import probas
 import category
 import os
+import time
 
 
 pygame.init()
@@ -12,6 +13,7 @@ screen = pygame.display.set_mode([WIDTH, HEIGHT])
 font = pygame.font.Font('CaviarDreams.ttf', 18)
 clicked = -1
 something_selected = False
+dicevalue_stats = []
 
 current_scores = 0
 
@@ -206,14 +208,26 @@ def main_draw():
     timer = pygame.time.Clock()
     fps = 60
     # if 0,0,0,0,0 it looks like a yams, so choose random values that don't follow each other
+    global dicevalue_stats
+    dicevalue_stats = [0,0,0,0,0,0] 
+
     global something_selected
     dice_values = [0, 7, 9, 11, 13]
     global dice_selected
     dice_selected = [False, False, False, False, False]
     roll = False
     rolls_left = 3
+    current_time = time.time()
+    time_bonus = abs(probas.normal(35,10))
+    turn_start = time.time()
+    turntime_values = [] #moy = sum tab/len tab
+
     running = True
     while running:
+        if time.time() - current_time > time_bonus:
+            time_bonus = abs(probas.normal(35,10))
+            #function bonus + nouveau temps
+            
         timer.tick(fps)
         screen.fill((114, 47, 55))
         # BUTTON ROLL
@@ -314,11 +328,14 @@ def main_draw():
                     dice_values = [0, 7, 9, 11, 13]
                     something_selected = False
                     rolls_left = 3
+                    turntime_values.append(time.time() - turn_start)
+                    turn_start = time.time()
 
         if roll:
             for value in range(len(dice_values)):
                 if not dice_selected[value]:
                     dice_values[value] = Dice.pick(*Dice.pick_params)
+                    dicevalue_stats[dice_values[value]-1]+=1
 
             roll = False
         for i in range(len(done)):

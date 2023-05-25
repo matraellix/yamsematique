@@ -55,8 +55,8 @@ def main_menu():
                 dice.Dice.pick = probas.uniformdisc
                 dice.Dice.pick_params = [1, 6]
                 dice.main_draw()
-                # oppo = opponent.Opponent(level-1)
-                # oppo.calculate_score()
+                oppo = opponent.Opponent(level-1)
+                oppo.calculate_score()
                 # Affichage des scores
                 demoyams.draw_demoyams()
 
@@ -64,7 +64,8 @@ def main_menu():
             if click:
                 click = False
                 level = 2
-                level_proba = run_lvl2(click)
+                level_proba = run_lvl(
+                    "Choose a probability between 0 and 1", click)
                 dice.Dice.pick = probas.binomdice
                 dice.Dice.pick_params = [level_proba]
                 dice.main_draw()
@@ -115,51 +116,9 @@ def main_menu():
                     click = True
         pygame.display.update()
 
-
 """
-LEVEL 2 - BINOMIALE
+LEVEL CHOICE
 """
-
-
-def run_lvl2(click):
-    proba = choose_proba("Choose a probability between 0 and 1")
-    print(proba)
-    running = True
-    while running:
-        screen.fill((114, 47, 55))
-        functions.draw_text('proba : ' + str(proba), font,
-                            (255, 245, 238), screen, 140, 32)
-
-        # Two variables to keep the position of the mouse
-        mx, my = pygame.mouse.get_pos()
-        # starting button // little fonction later ?
-        button_start = pygame.Rect(200, 100, 200, 50)
-        pygame.draw.rect(screen, (255, 245, 238), button_start)
-        functions.draw_text('START GAME', font, (60, 25, 29), screen, 250, 115)
-
-        if button_start.collidepoint((mx, my)):
-            if click:
-                running = False
-
-        pygame.display.update()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
-
-    return proba
-
-
-"""
-LEVEL 1 UNIFORME - 3 POISSON
-"""
-
 
 def run_lvl(instruction, click):
     proba = choose_proba(instruction)
@@ -208,6 +167,7 @@ def choose_proba(instruction):
     active = False
     global level
     print(level)
+
 
     running = True
 

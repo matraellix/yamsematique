@@ -5,6 +5,7 @@ import os
 import dice
 import random
 import functions
+import time
 
 pygame.init()
 
@@ -62,8 +63,7 @@ def draw_demoyams():
         roll_demoyams_text = font.render('SKIP', True, (60, 25, 29))
         screen.blit(roll_demoyams_text, (380, 295))
 
-        demoyams = Demoyams(170, 50, demoyams_value)
-        demoyams.draw()
+        
         functions.draw_text('your current score : ' + str(category.totals[3]), font,
                             (255, 245, 238), screen, 100, 400)
         for event in pygame.event.get():
@@ -82,12 +82,13 @@ def draw_demoyams():
             demoyams_value = random.choice(faces)
             roll_demoyams = False
             # running = False
-
+        demoyams = Demoyams(170, 50, demoyams_value)
         if demoyams_value != '' and demoyams_once > 0:
+            demoyams.draw()
             demoyams_once = 0
             score_to_change = category.scores[k := probas.uniformdisc(0, 12)]
-            functions.draw_text('the score from the category that changed : ' + str(k), font,
-                                (255, 245, 238), screen, 100, 430)
+            functions.draw_text('the score from the category that changed : ' + str(k+1), font,
+                                (255, 245, 238), screen, 50, 430)
 
             # print(score_to_change)
             operation = probas.uniformdisc(0, 2)
@@ -107,6 +108,9 @@ def draw_demoyams():
             # print(final_total)
             functions.draw_text('your new full score : ' + str(final_total), font,
                                 (255, 245, 238), screen, 100, 500)
+            pygame.display.update()
+            time.sleep(4)
+            running = False
         pygame.display.update()
 
 
