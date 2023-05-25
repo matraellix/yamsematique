@@ -24,18 +24,18 @@ class Demoyams:
     def draw(self):
 
         pygame.draw.rect(screen, (255, 255, 255), [
-                         self.x_pos, self.y_pos, 180, 180], 0, 5)
+                         self.x_pos, self.y_pos, 170, 170], 0, 5)
         font_dice = pygame.font.Font('CaviarDreams.ttf', 40)
 
         if self.face_value == 'demoyams':
 
             functions.draw_text('DEMO', font_dice,
-                                '#731C10', screen, self.x_pos+35, self.y_pos+40)
+                                '#731C10', screen, self.x_pos+30, self.y_pos+40)
             functions.draw_text('YAMS', font_dice,
-                                '#731C10', screen, self.x_pos+40, self.y_pos+90)
+                                '#731C10', screen, self.x_pos+35, self.y_pos+90)
         elif self.face_value == 'joker':
             functions.draw_text(self.face_value.upper(), font_dice,
-                                '#65743A', screen, self.x_pos+30, self.y_pos+60)
+                                '#65743A', screen, self.x_pos+25, self.y_pos+60)
 
 
 def draw_demoyams():
@@ -48,9 +48,16 @@ def draw_demoyams():
     roll_demoyams = False
     roll_left = 1
     running = True
+
     while running:
         timer.tick(fps)
         screen.fill((114, 47, 55))
+        functions.draw_text('If you roll the dice you have 1/2 chance to ', font,
+                            (255, 245, 238), screen, 20, 30)
+        functions.draw_text('either improve one of your scores of a category ', font,
+                            (255, 245, 238), screen, 20, 50)
+        functions.draw_text('or lose all its points: ', font,
+                            (255, 245, 238), screen, 20, 70)
         # BUTTON ROLL
         button_roll_demoyams = pygame.draw.rect(
             screen, (255, 245, 238), [50, 280, 230, 50])
@@ -60,10 +67,9 @@ def draw_demoyams():
         # BUTTON SKIP
         button_skip = pygame.draw.rect(
             screen, (255, 245, 238), [350, 280, 100, 50])
-        roll_demoyams_text = font.render('SKIP', True, (60, 25, 29))
-        screen.blit(roll_demoyams_text, (380, 295))
+        skip_text = font.render('SKIP', True, (60, 25, 29))
+        screen.blit(skip_text, (380, 295))
 
-        
         functions.draw_text('your current score : ' + str(category.totals[3]), font,
                             (255, 245, 238), screen, 100, 400)
         for event in pygame.event.get():
@@ -76,13 +82,15 @@ def draw_demoyams():
                 if button_roll_demoyams.collidepoint(event.pos):
                     roll_demoyams = True
                     roll_left = 0
+                if button_skip.collidepoint(event.pos):
+                    running = False
 
         if roll_demoyams:
             faces = ['joker', 'demoyams']
             demoyams_value = random.choice(faces)
             roll_demoyams = False
             # running = False
-        demoyams = Demoyams(170, 50, demoyams_value)
+        demoyams = Demoyams(150, 100, demoyams_value)
         if demoyams_value != '' and demoyams_once > 0:
             demoyams.draw()
             demoyams_once = 0

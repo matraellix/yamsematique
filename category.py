@@ -5,7 +5,7 @@ import functions
 
 pygame.init()
 
-WIDTH = 600
+WIDTH = 400
 HEIGHT = 600
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 font = pygame.font.Font('CaviarDreams.ttf', 18)
@@ -130,7 +130,7 @@ def create_categories(dice_values):
 
 # PROBABLEMENT A DEPLACER DANS LE FICHIER OPPONENT
 
-
+"""
 def create_categories_opponent():
     opponent_text = font.render(
         'Your Opponent: IAm', True, (255, 245, 238))
@@ -174,3 +174,4 @@ def create_categories_opponent():
     draw_categories(categories)
 
     # pygame.draw.line(screen, (51, 33, 29), (50, 480), (525, 480), 1)
+"""

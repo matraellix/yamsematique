@@ -7,7 +7,7 @@ import time
 
 pygame.init()
 
-WIDTH = 1000
+WIDTH = 600
 HEIGHT = 650
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 font = pygame.font.Font('CaviarDreams.ttf', 18)
@@ -209,7 +209,7 @@ def main_draw():
     fps = 60
     # if 0,0,0,0,0 it looks like a yams, so choose random values that don't follow each other
     global dicevalue_stats
-    dicevalue_stats = [0,0,0,0,0,0] 
+    dicevalue_stats = [0, 0, 0, 0, 0, 0]
 
     global something_selected
     dice_values = [0, 7, 9, 11, 13]
@@ -218,16 +218,16 @@ def main_draw():
     roll = False
     rolls_left = 3
     current_time = time.time()
-    time_bonus = abs(probas.normal(35,10))
+    time_bonus = abs(probas.normal(35, 10))
     turn_start = time.time()
-    turntime_values = [] #moy = sum tab/len tab
+    turntime_values = []  # moy = sum tab/len tab
 
     running = True
     while running:
         if time.time() - current_time > time_bonus:
-            time_bonus = abs(probas.normal(35,10))
-            #function bonus + nouveau temps
-            
+            time_bonus = abs(probas.normal(35, 10))
+            # function bonus + nouveau temps
+
         timer.tick(fps)
         screen.fill((114, 47, 55))
         # BUTTON ROLL
@@ -258,7 +258,7 @@ def main_draw():
 
         done, selected_category, scores = category.create_categories(
             dice_values)
-        category.create_categories_opponent()
+        # category.create_categories_opponent()
         current_scores = check_scores(
             selected_category, dice_values, done)
         totals = check_totals(category.totals, category.scores)
@@ -335,14 +335,19 @@ def main_draw():
             for value in range(len(dice_values)):
                 if not dice_selected[value]:
                     dice_values[value] = Dice.pick(*Dice.pick_params)
-                    dicevalue_stats[dice_values[value]-1]+=1
+                    dicevalue_stats[dice_values[value]-1] += 1
 
             roll = False
         for i in range(len(done)):
             if selected_category[i]:
                 something_selected = True
-
-        pygame.display.flip()
+        count_dones = 0
+        for i in range(len(done)):
+            if done[i] == True:
+                count_dones += 1
+        if count_dones == len(done):
+            running = False
+        pygame.display.update()
 
 
 # Uncomment for testing the file

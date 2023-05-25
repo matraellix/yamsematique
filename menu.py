@@ -8,6 +8,7 @@ import functions
 import opponent
 import os
 import demoyams
+import stats
 
 
 pygame.init()
@@ -59,6 +60,7 @@ def main_menu():
                 oppo.calculate_score()
                 # Affichage des scores
                 demoyams.draw_demoyams()
+                stats.draw_stats()
 
         if button_lvl2.collidepoint((mx, my)):
             if click:
@@ -73,7 +75,7 @@ def main_menu():
                 oppo.calculate_score()
                 # Affichage des scores
                 demoyams.draw_demoyams()
-
+                stats.draw_stats()
         if button_lvl3.collidepoint((mx, my)):
             if click:
                 click = False
@@ -87,7 +89,7 @@ def main_menu():
                 oppo.calculate_score()
                 # Affichage des scores
                 demoyams.draw_demoyams()
-
+                stats.draw_stats()
         if button_quit.collidepoint((mx, my)):
             if click:
                 running = False
@@ -116,9 +118,11 @@ def main_menu():
                     click = True
         pygame.display.update()
 
+
 """
 LEVEL CHOICE
 """
+
 
 def run_lvl(instruction, click):
     proba = choose_proba(instruction)
@@ -167,7 +171,6 @@ def choose_proba(instruction):
     active = False
     global level
     print(level)
-
 
     running = True
 
