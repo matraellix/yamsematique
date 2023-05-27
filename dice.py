@@ -202,6 +202,18 @@ def check_totals(totals, scores):
     return totals
 
 
+def do_bonus():
+    bonus = probas.uniformdisc(0,1)
+    score_to_change = category.scores[k := probas.uniformdisc(0, 12)]
+    if bonus == 1:
+        print("bonus a la categorie "+ str(k))
+        score_to_change += 10
+    else:
+        print("malus a la categorie "+ str(k))
+        score_to_change = -10
+    category.scores[k] = score_to_change
+
+
 def main_draw():
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
@@ -225,8 +237,10 @@ def main_draw():
     running = True
     while running:
         if time.time() - current_time > time_bonus:
-            time_bonus = abs(probas.normal(35, 10))
+            time_bonus = abs(probas.normal(10, 10))
             # function bonus + nouveau temps
+            do_bonus()
+            current_time = time.time()
 
         timer.tick(fps)
         screen.fill((114, 47, 55))

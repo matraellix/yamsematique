@@ -56,8 +56,8 @@ def main_menu():
                 dice.Dice.pick = probas.uniformdisc
                 dice.Dice.pick_params = [1, 6]
                 dice.main_draw()
-                oppo = opponent.Opponent(level-1)
-                oppo.calculate_score()
+                #oppo = opponent.Opponent(level-1)
+                #oppo.calculate_score()
                 # Affichage des scores
                 demoyams.draw_demoyams()
                 stats.draw_stats()
@@ -71,8 +71,8 @@ def main_menu():
                 dice.Dice.pick = probas.binomdice
                 dice.Dice.pick_params = [level_proba]
                 dice.main_draw()
-                oppo = opponent.Opponent(level-1)
-                oppo.calculate_score()
+                #oppo = opponent.Opponent(level-1)
+                #oppo.calculate_score()
                 # Affichage des scores
                 demoyams.draw_demoyams()
                 stats.draw_stats()
@@ -85,8 +85,8 @@ def main_menu():
                 dice.Dice.pick = probas.poissondice
                 dice.Dice.pick_params = [level_proba]
                 dice.main_draw()
-                oppo = opponent.Opponent(level-1)
-                oppo.calculate_score()
+                #oppo = opponent.Opponent(level-1)
+                #oppo.calculate_score()
                 # Affichage des scores
                 demoyams.draw_demoyams()
                 stats.draw_stats()
@@ -136,9 +136,9 @@ def run_lvl(instruction, click):
         # Two variables to keep the position of the mouse
         mx, my = pygame.mouse.get_pos()
         # starting button // little fonction later ?
-        button_start = pygame.Rect(200, 100, 200, 50)
+        button_start = pygame.Rect(100, 100, 200, 50)
         pygame.draw.rect(screen, (255, 245, 238), button_start)
-        functions.draw_text('START GAME', font, (60, 25, 29), screen, 250, 115)
+        functions.draw_text('START GAME', font, (60, 25, 29), screen, 155, 115)
 
         if button_start.collidepoint((mx, my)):
             if click:
@@ -163,7 +163,7 @@ Function for the user to choose the probability wanted
 
 
 def choose_proba(instruction):
-    input_proba = pygame.Rect(250, 250, 140, 32)
+    input_proba = pygame.Rect(155, 250, 140, 32)
     proba_chosen = ''
     color_active = pygame.Color((60, 25, 29))
     color_passive = pygame.Color('white')
@@ -177,7 +177,7 @@ def choose_proba(instruction):
     while running:
         screen.fill((114, 47, 55))
         functions.draw_text(instruction, font,
-                            (255, 245, 238), screen, 150, 200)
+                            (255, 245, 238), screen, 50, 200)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -201,30 +201,30 @@ def choose_proba(instruction):
                                 msg = "The probability must be bewteen 0 and 1"
                                 print(msg)
                                 functions.draw_text(msg, font, (255, 245, 238),
-                                                    screen, 150, 200)
+                                                    screen, 50, 200)
                                 proba_chosen = ''
                         except ValueError:
                             errorMsg = "Error : The probability must be bewteen 0 and 1"
                             print(errorMsg)
                             functions.draw_text(errorMsg, font, (255, 245, 238),
-                                                screen, 150, 200)
+                                                screen, 50, 200)
                             proba_chosen = ''
                     elif level == 3:
                         try:
                             proba = float(proba_chosen)
-                            if 0 <= proba <= 6:
+                            if 0 < proba <= 6:
                                 return proba
                             else:
                                 msg = "The number must be between 1 and 6"
                                 print(msg)
                                 functions.draw_text(msg, font, (255, 245, 238),
-                                                    screen, 150, 200)
+                                                    screen, 50, 200)
                                 proba_chosen = ''
                         except ValueError:
                             errorMsg = "Error : The number must be between 1 and 6"
                             print(errorMsg)
                             functions.draw_text(errorMsg, font, (255, 245, 238),
-                                                screen, 150, 200)
+                                                screen, 50, 200)
                             proba_chosen = ''
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
