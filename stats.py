@@ -60,6 +60,15 @@ def draw_stats():
 
         functions.draw_text('the number you rolled the most: ', font,
                             (255, 245, 238), screen, 20, 180)
+        functions.draw_text(str(dice.dicevalue_stats.index(max(dice.dicevalue_stats))+1), font,
+                            (255, 245, 238), screen, 300, 180)
+        
+        functions.draw_text('average time spent by turn (sec): ', font,
+                            (255, 245, 238), screen, 20, 200)
+        moy = sum(dice.turntime_values)/len(dice.turntime_values)
+        functions.draw_text(str(moy), font,
+                            (255, 245, 238), screen, 300, 200)
+        
 
         pygame.draw.rect(screen, (255, 255, 255), [
                          10, 220, 480, 70], 1, 20)

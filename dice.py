@@ -241,8 +241,8 @@ def main_draw(bonus_law):
     current_time = time.time()
     time_bonus = abs(bonus_law)
     turn_start = time.time()
+    global turntime_values
     turntime_values = []  # moy = sum tab/len tab
-    display_bonus_text = False
 
     running = True
     while running:
