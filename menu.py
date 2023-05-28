@@ -66,8 +66,8 @@ def main_menu():
                 dice.Dice.pick = probas.uniformdisc
                 dice.Dice.pick_params = [1, 6]
                 dice.main_draw(bonus_law)
-                #oppo = opponent.Opponent(level-1)
-                #oppo.calculate_score()
+                oppo = opponent.Opponent(level-1)
+                oppo.calculate_score()
                 # Affichage des scores
                 demoyams.draw_demoyams()
                 stats.draw_stats()

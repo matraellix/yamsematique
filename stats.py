@@ -6,6 +6,7 @@ import functions
 import time
 import dice
 import category
+import opponent
 
 pygame.init()
 
@@ -78,7 +79,7 @@ def draw_stats():
                             (255, 245, 238), screen, 300, 230)
         functions.draw_text('your AI opponent\'s final score: ', font,
                             (255, 245, 238), screen, 20, 255)
-        functions.draw_text("score of ai", font,
+        functions.draw_text("score of ai "+ str(opponent.score_ai), font,
                             (255, 245, 238), screen, 300, 255)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
