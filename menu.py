@@ -53,9 +53,19 @@ def main_menu():
         if button_lvl1.collidepoint((mx, my)):
             if click:
                 click = False
+                choose_law = probas.uniformdisc(0,1)
+                if choose_law == 0:
+                    law_lvl1 = 'normal'
+                    probas_bonus = display_bonus_lvl1(law_lvl1, click)
+                    bonus_law = probas.normal(probas_bonus[0], probas_bonus[1])
+                else:
+                    law_lvl1 = 'laplace'
+                    probas_bonus = display_bonus_lvl1(law_lvl1, click)
+                    bonus_law = probas.laplace(probas_bonus[0], probas_bonus[1])
+                
                 dice.Dice.pick = probas.uniformdisc
                 dice.Dice.pick_params = [1, 6]
-                dice.main_draw()
+                dice.main_draw(bonus_law)
                 #oppo = opponent.Opponent(level-1)
                 #oppo.calculate_score()
                 # Affichage des scores
@@ -67,10 +77,12 @@ def main_menu():
                 click = False
                 level = 2
                 level_proba = run_lvl(
-                    "Choose a probability between 0 and 1", click)
+                    "Choose a probability between 0 and 1", "Choose a positive number (0 excluded)", click)
                 dice.Dice.pick = probas.binomdice
-                dice.Dice.pick_params = [level_proba]
-                dice.main_draw()
+                dice.Dice.pick_params = [level_proba[0]]
+
+                bonus_law = probas.expo(level_proba[1])
+                dice.main_draw(bonus_law)
                 #oppo = opponent.Opponent(level-1)
                 #oppo.calculate_score()
                 # Affichage des scores
@@ -81,10 +93,12 @@ def main_menu():
                 click = False
                 level = 3
                 level_proba = run_lvl(
-                    "Choose a number between 1 and 6", click)
+                    "Choose a number between 1 and 6", "Choose a positive number (0 excluded)", click)
                 dice.Dice.pick = probas.poissondice
-                dice.Dice.pick_params = [level_proba]
-                dice.main_draw()
+                dice.Dice.pick_params = [level_proba[0]]
+                
+                bonus_law = probas.gamma(level_proba[1])
+                dice.main_draw(bonus_law)
                 #oppo = opponent.Opponent(level-1)
                 #oppo.calculate_score()
                 # Affichage des scores
@@ -118,27 +132,103 @@ def main_menu():
                     click = True
         pygame.display.update()
 
+def bonus_lvl1(law_name):
+    input_p1 = pygame.Rect(155, 250, 140, 32)
+    input_p2 = pygame.Rect(155, 150, 140, 32)
+    p1_chosen = ''
+    p2_chosen = ''
+    p1_active = False
+    p2_active = False
 
-"""
-LEVEL CHOICE
-"""
+    p1_color_active = pygame.Color((60, 25, 29))
+    p1_color_passive = pygame.Color('white')
+    p1_color = p1_color_passive
 
+    p2_color_active = pygame.Color((60, 25, 29))
+    p2_color_passive = pygame.Color('white')
+    p2_color = p2_color_passive
 
-def run_lvl(instruction, click):
-    proba = choose_proba(instruction)
-    print(proba)
     running = True
     while running:
         screen.fill((114, 47, 55))
-        functions.draw_text('proba : ' + str(proba), font,
+        functions.draw_text('In this level bonus/malus will be triggered from', font,(255, 245, 238), screen, 10, 32)
+        functions.draw_text('time to time, following a law ' + str(law_name), font,(255, 245, 238), screen, 10, 55)
+
+        functions.draw_text('Choose a real number', font,(255, 245, 238), screen, 110, 120)
+        functions.draw_text('Choose a positive number (0 excluded)', font,(255, 245, 238), screen, 40, 220)
+        
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if input_p1.collidepoint(event.pos):
+
+                    p1_active = True
+                elif input_p2.collidepoint(event.pos):
+                    p2_active = True
+                else:
+                    p1_active = False
+                    p2_active = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE and p1_active:
+                    p1_chosen = p1_chosen[:-1]
+                elif event.key == pygame.K_BACKSPACE and p2_active: 
+                    p2_chosen = p2_chosen[:-1]
+                    
+                elif (event.key != pygame.K_KP_ENTER or event.key != pygame.K_RETURN) and p1_active:
+                    p1_chosen += event.unicode
+                    
+                elif (event.key != pygame.K_KP_ENTER or event.key != pygame.K_RETURN) and p2_active:
+                    p2_chosen += event.unicode
+                    
+                if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                    p1 = float(p1_chosen)
+                    p2 = float(p2_chosen)
+                    return p1, p2
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+        if p1_active:
+            p1_color = p1_color_active
+            text_surface = font.render(p1_chosen, True, (255, 245, 238))
+        else:
+            p1_color = p1_color_passive
+            text_surface = font.render(p1_chosen, True, (0, 0, 0))
+                
+        if p2_active:
+            p2_color = p2_color_active
+            text_surface_b = font.render(p2_chosen, True, (255, 245, 238))
+        else:
+            p2_color = p2_color_passive
+            text_surface_b = font.render(p2_chosen, True, (0, 0, 0))
+
+
+        pygame.draw.rect(screen, p1_color, input_p1)
+        screen.blit(text_surface, (input_p1.x+5, input_p1.y+5))
+        input_p1.w = max(100, text_surface.get_width()+10)
+
+        pygame.draw.rect(screen, p2_color, input_p2)
+        screen.blit(text_surface_b, (input_p2.x+5, input_p2.y+5))
+        input_p2.w = max(100, text_surface_b.get_width()+10)
+
+        pygame.display.update()
+
+def display_bonus_lvl1(law_name, click):
+    probas = bonus_lvl1(law_name)
+    running = True
+    while running:
+        screen.fill((114, 47, 55))
+        functions.draw_text('proba: ' + str(probas[0]), font,
                             (255, 245, 238), screen, 140, 32)
+        functions.draw_text('value used to trigger bonus/malus event: ' + str(probas[1]), font,
+                            (255, 245, 238), screen, 20, 80)
 
         # Two variables to keep the position of the mouse
         mx, my = pygame.mouse.get_pos()
         # starting button // little fonction later ?
-        button_start = pygame.Rect(100, 100, 200, 50)
+        button_start = pygame.Rect(100, 115, 200, 50)
         pygame.draw.rect(screen, (255, 245, 238), button_start)
-        functions.draw_text('START GAME', font, (60, 25, 29), screen, 155, 115)
+        functions.draw_text('START GAME', font, (60, 25, 29), screen, 155, 130)
 
         if button_start.collidepoint((mx, my)):
             if click:
@@ -154,7 +244,43 @@ def run_lvl(instruction, click):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
-    return proba
+    return probas
+
+"""
+LEVEL CHOICE
+"""
+def run_lvl(instruction, bonus_ins, click):
+    probas = choose_proba(instruction, bonus_ins)
+    running = True
+    while running:
+        screen.fill((114, 47, 55))
+        functions.draw_text('proba: ' + str(probas[0]), font,
+                            (255, 245, 238), screen, 140, 32)
+        functions.draw_text('value used to trigger bonus/malus event: ' + str(probas[1]), font,
+                            (255, 245, 238), screen, 20, 80)
+
+        # Two variables to keep the position of the mouse
+        mx, my = pygame.mouse.get_pos()
+        # starting button // little fonction later ?
+        button_start = pygame.Rect(100, 115, 200, 50)
+        pygame.draw.rect(screen, (255, 245, 238), button_start)
+        functions.draw_text('START GAME', font, (60, 25, 29), screen, 155, 130)
+
+        if button_start.collidepoint((mx, my)):
+            if click:
+                running = False
+
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+    return probas
 
 
 """
@@ -162,13 +288,22 @@ Function for the user to choose the probability wanted
 """
 
 
-def choose_proba(instruction):
+def choose_proba(instruction, bonus_ins):
     input_proba = pygame.Rect(155, 250, 140, 32)
+    input_pbonus = pygame.Rect(155, 150, 140, 32)
     proba_chosen = ''
-    color_active = pygame.Color((60, 25, 29))
-    color_passive = pygame.Color('white')
-    color = color_passive
-    active = False
+    pbonus_chosen = ''
+
+    proba_color_active = pygame.Color((60, 25, 29))
+    proba_color_passive = pygame.Color('white')
+    proba_color = proba_color_passive
+
+    bonus_color_active = pygame.Color((60, 25, 29))
+    bonus_color_passive = pygame.Color('white')
+    bonus_color = bonus_color_passive
+
+    proba_active = False
+    bonus_active = False
     global level
     print(level)
 
@@ -178,25 +313,38 @@ def choose_proba(instruction):
         screen.fill((114, 47, 55))
         functions.draw_text(instruction, font,
                             (255, 245, 238), screen, 50, 200)
+        functions.draw_text(bonus_ins, font,
+                            (255, 245, 238), screen, 50, 100)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if input_proba.collidepoint(event.pos):
-                    active = True
+                    proba_active = True
+                elif input_pbonus.collidepoint(event.pos):
+                    bonus_active = True
                 else:
-                    active = False
+                    proba_active = False
+                    bonus_active = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
+                if event.key == pygame.K_BACKSPACE and proba_active:
                     proba_chosen = proba_chosen[:-1]
-                elif event.key != pygame.K_KP_ENTER or event.key != pygame.K_RETURN:
+                elif event.key == pygame.K_BACKSPACE and bonus_active: 
+                    pbonus_chosen = pbonus_chosen[:-1]
+                    
+                elif (event.key != pygame.K_KP_ENTER or event.key != pygame.K_RETURN) and proba_active:
                     proba_chosen += event.unicode
+                    
+                elif (event.key != pygame.K_KP_ENTER or event.key != pygame.K_RETURN) and bonus_active:
+                    pbonus_chosen += event.unicode
+                    
                 if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
                     if level == 2:
                         try:
                             proba = float(proba_chosen)
+                            bonus = float(pbonus_chosen)
                             if 0 <= proba <= 1:
-                                return proba
+                                return proba, bonus
                             else:
                                 msg = "The probability must be bewteen 0 and 1"
                                 print(msg)
@@ -212,8 +360,9 @@ def choose_proba(instruction):
                     elif level == 3:
                         try:
                             proba = float(proba_chosen)
+                            bonus = float(pbonus_chosen)
                             if 0 < proba <= 6:
-                                return proba
+                                return proba, bonus
                             else:
                                 msg = "The number must be between 1 and 6"
                                 print(msg)
@@ -228,17 +377,33 @@ def choose_proba(instruction):
                             proba_chosen = ''
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
-        if active:
-            color = color_active
+        if proba_active:
+            proba_color = proba_color_active
+            text_surface = font.render(proba_chosen, True, (255, 245, 238))
         else:
-            color = color_passive
+            proba_color = proba_color_passive
+            text_surface = font.render(proba_chosen, True, (0, 0, 0))
+        
+        if bonus_active:
+            bonus_color = bonus_color_active
+            text_surface_b = font.render(pbonus_chosen, True, (255, 245, 238))
+        else:
+            bonus_color = bonus_color_passive
+            text_surface_b = font.render(pbonus_chosen, True, (0, 0, 0))
+
+
         # draw rectangle and argument passed which should be on screen
-        pygame.draw.rect(screen, color, input_proba)
-        text_surface = font.render(proba_chosen, True, (255, 245, 238))
+        pygame.draw.rect(screen, proba_color, input_proba)
         # render at position stated in arguments
         screen.blit(text_surface, (input_proba.x+5, input_proba.y+5))
         # set width of textfield so that text cannot get outside of user's text input
         input_proba.w = max(100, text_surface.get_width()+10)
+
+        pygame.draw.rect(screen, bonus_color, input_pbonus)
+        # render at position stated in arguments
+        screen.blit(text_surface_b, (input_pbonus.x+5, input_pbonus.y+5))
+        # set width of textfield so that text cannot get outside of user's text input
+        input_pbonus.w = max(100, text_surface_b.get_width()+10)
 
         pygame.display.update()
 

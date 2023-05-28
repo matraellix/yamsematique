@@ -74,10 +74,10 @@ def draw_demoyams():
                             (255, 245, 238), screen, 100, 400)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    running = False
+                    pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN and roll_left > 0:
                 if button_roll_demoyams.collidepoint(event.pos):
                     roll_demoyams = True
@@ -94,7 +94,7 @@ def draw_demoyams():
         if demoyams_value != '' and demoyams_once > 0:
             demoyams.draw()
             demoyams_once = 0
-            score_to_change = category.scores[k := probas.uniformdisc(0, 12)]
+            score_to_change = category.scores[k := probas.uniformdisc(0, 11)]
             functions.draw_text('the score from the category that changed : ' + str(k+1), font,
                                 (255, 245, 238), screen, 50, 430)
 

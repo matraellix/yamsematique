@@ -204,17 +204,26 @@ def check_totals(totals, scores):
 
 def do_bonus():
     bonus = probas.uniformdisc(0,1)
-    score_to_change = category.scores[k := probas.uniformdisc(0, 12)]
+    score_to_change = category.scores[k := probas.uniformdisc(0, 11)]
     if bonus == 1:
-        print("bonus a la categorie "+ str(k))
+        bonus_text = font.render("bonus to category "+ str(k+1), True, (255, 245, 238))
+        screen.blit(bonus_text, (30, 200))
+        #print("bonus a la categorie "+ str(k+1))
         score_to_change += 10
     else:
-        print("malus a la categorie "+ str(k))
+        bonus_text = font.render("malus to category "+ str(k+1), True, (255, 245, 238))
+        screen.blit(bonus_text, (30, 200))
+        #print("malus a la categorie "+ str(k+1))
         score_to_change = -10
     category.scores[k] = score_to_change
 
+    pygame.display.flip()
+    pygame.event.pump()
+    pygame.time.delay(2000)
 
-def main_draw():
+
+
+def main_draw(bonus_law):
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
     timer = pygame.time.Clock()
@@ -230,14 +239,15 @@ def main_draw():
     roll = False
     rolls_left = 3
     current_time = time.time()
-    time_bonus = abs(probas.normal(35, 10))
+    time_bonus = abs(bonus_law)
     turn_start = time.time()
     turntime_values = []  # moy = sum tab/len tab
+    display_bonus_text = False
 
     running = True
     while running:
         if time.time() - current_time > time_bonus:
-            time_bonus = abs(probas.normal(10, 10))
+            time_bonus = abs(bonus_law)
             # function bonus + nouveau temps
             do_bonus()
             current_time = time.time()
@@ -278,10 +288,10 @@ def main_draw():
         totals = check_totals(category.totals, category.scores)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    running = False
+                    pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for value in range(len(dices_array)):
                     dices_array[value].check_click(event.pos)
