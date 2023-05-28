@@ -208,12 +208,10 @@ def do_bonus():
     if bonus == 1:
         bonus_text = font.render("bonus to category "+ str(k+1), True, (255, 245, 238))
         screen.blit(bonus_text, (30, 200))
-        #print("bonus a la categorie "+ str(k+1))
         score_to_change += 10
     else:
         bonus_text = font.render("malus to category "+ str(k+1), True, (255, 245, 238))
         screen.blit(bonus_text, (30, 200))
-        #print("malus a la categorie "+ str(k+1))
         score_to_change = -10
     category.scores[k] = score_to_change
 
@@ -310,7 +308,6 @@ def main_draw(bonus_law):
                             clicked = 4
                         if 435 <= event.pos[1] <= 470:
                             clicked = 5
-                        print(clicked)
                         selected_category = category.make_choice(
                             clicked, selected_category, done)
                         clicked = -1
@@ -328,7 +325,6 @@ def main_draw(bonus_law):
                             clicked = 10
                         if 435 <= event.pos[1] <= 470:
                             clicked = 11
-                        print(clicked)
                         selected_category = category.make_choice(
                             clicked, selected_category, done)
                         clicked = -1
@@ -337,14 +333,10 @@ def main_draw(bonus_law):
                     rolls_left -= 1
 
                 if button_accept.collidepoint(event.pos) and something_selected and rolls_left >= 0:
-                    print("accepted")
-
                     for i in range(len(selected_category)):
                         if selected_category[i]:
                             done[i] = True
                             scores[i] = current_scores
-                            print(selected_category[i])
-                            print(i)
                             selected_category[i] = False
 
                     for j in range(len(dice_selected)):

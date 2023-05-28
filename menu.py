@@ -65,6 +65,7 @@ def main_menu():
                 
                 dice.Dice.pick = probas.uniformdisc
                 dice.Dice.pick_params = [1, 6]
+
                 dice.main_draw(bonus_law)
                 oppo = opponent.Opponent(level-1)
                 oppo.calculate_score()
@@ -83,8 +84,8 @@ def main_menu():
 
                 bonus_law = probas.expo(level_proba[1])
                 dice.main_draw(bonus_law)
-                #oppo = opponent.Opponent(level-1)
-                #oppo.calculate_score()
+                oppo = opponent.Opponent(level-1)
+                oppo.calculate_score()
                 # Affichage des scores
                 demoyams.draw_demoyams()
                 stats.draw_stats()
@@ -97,10 +98,10 @@ def main_menu():
                 dice.Dice.pick = probas.poissondice
                 dice.Dice.pick_params = [level_proba[0]]
                 
-                bonus_law = probas.gamma(level_proba[1])
+                bonus_law = probas.gamma(int(level_proba[1]))
                 dice.main_draw(bonus_law)
-                #oppo = opponent.Opponent(level-1)
-                #oppo.calculate_score()
+                oppo = opponent.Opponent(level-1)
+                oppo.calculate_score()
                 # Affichage des scores
                 demoyams.draw_demoyams()
                 stats.draw_stats()
@@ -305,7 +306,6 @@ def choose_proba(instruction, bonus_ins):
     proba_active = False
     bonus_active = False
     global level
-    print(level)
 
     running = True
 

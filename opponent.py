@@ -30,6 +30,11 @@ def median(set):
     copy.sort()
     return copy[len(copy)//2]
 
+def minpos(set) :
+    posset = [v for v in set if v>0]
+    if len(posset) :
+        return min(posset)
+    return 0
 
 class Opponent:
     dice_values = [1, 2, 3, 4, 5, 6]
@@ -38,7 +43,7 @@ class Opponent:
         self.total_score = 0
         self.difficulty = difficulty
         self.matrix = markmats[difficulty]
-        self.pick_category = min
+        self.pick_category = minpos
         if difficulty == 1:
             self.pick_category = median
         if difficulty == 2:
@@ -46,18 +51,25 @@ class Opponent:
         self.done = [0 for i in range(len(category.selected_category))]
 
     def calculate_score(self):
-        #print(self.matrix)
+        global score_ai
+        score_ai = 0
         for i in range(len(category.selected_category)):
             dices = [randint(1, 6)]
             category_scores = []
             for i in range(4):
                 dices.append(probas.markov(
-                    Opponent.dice_values, dices[i], self.matrix))
+                    Opponent.dice_values, dices[i]-1, self.matrix))
 
+            category.selected_category = [0 for i in range(12)]
             for i in range(len(category.selected_category)):
-                category_scores.append(dice.check_scores(i, dices, self.done))
+                category.selected_category[i] = 1
+                category_scores.append(dice.check_scores(category.selected_category, dices, self.done))
+                category.selected_category[i] = 0
 
             score = self.pick_category(category_scores)
             self.total_score += score
-            score_ai = self.total_score
             self.done[category_scores.index(score)] = 1
+            score_ai = self.total_score
+
+
+

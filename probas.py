@@ -61,12 +61,7 @@ def gamma(n):
 
 
 def markov(set, state, matrix):
-    print("wowo")
-    print(matrix)
-    print("wowo")
-    print(state)
-    #print(str(choices(set, 1, matrix[state])[0]))
-    return choices(set, 1, matrix[state])[0]
+    return choices(set, matrix[state], k = 1)[0]
 
 
 if __name__ == "__main__":
