@@ -83,10 +83,10 @@ def draw_stats():
                             (255, 245, 238), screen, 300, 255)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    running = False
+                    pygame.quit()
         pygame.display.update()
     back_menu()
 
